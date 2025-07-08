@@ -3,7 +3,7 @@ from pathlib import Path
 import folium
 from folium.plugins import MarkerCluster
 from folium.plugins import Search
-from branca.element import Template, MacroElement, Element
+from branca.element import Template, MacroElement
 
 def create_cluster_icon(color):
     return f"""
@@ -389,7 +389,7 @@ def make_map(df):
     search = Search(
         layer=search_group,
         placeholder="Search for a Nuclear Reactor",
-        collapsed=False,
+        collapsed=True,
         search_label="name",
     ).add_to(m)
 
@@ -404,23 +404,43 @@ def make_map(df):
     decomm_completed_amount = len(decomm_completed_df)
 
     stats_html = f"""
-    <div style="position: absolute; left: 20px; bottom: 20px; background-color: #fff;
+    <div id="plant-status-summary" style="position: absolute; left: 20px; bottom: 20px; background-color: #fff;
         padding: 20px 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif; max-width: 400px; z-index: 9999;">
-        <h1 style="font-size: 20px; margin-bottom: 20px;">Plant Status Summary</h1>
-        <p><strong>Operational:</strong> {operational_amount}</p>
-        <p><strong>Shut down:</strong> {shutdown_amount}</p>
-        <p><strong>Cancelled Construction:</strong> {cancelled_construction_amount}</p>
-        <p><strong>Under Construction:</strong> {under_construction_amount}</p>
-        <p><strong>Planned:</strong> {planned_amount}</p>
-        <p><strong>Suspended Operation:</strong> {suspended_operation_amount}</p>
-        <p><strong>Suspended Construction:</strong> {suspended_construction_amount}</p>
-        <p><strong>Never Commissioned:</strong> {never_comm_amount}</p>
-        <p><strong>Decommissioning Completed:</strong> {decomm_completed_amount}</p>
+        <h1 style="font-size: 20px; margin-bottom: 20px; cursor: pointer;" onclick="toggleSummary()">
+            Plant Status Summary &#x25BC;
+        </h1>
+        <div id="summary-content">
+            <p><strong>Operational:</strong> {operational_amount}</p>
+            <p><strong>Shut down:</strong> {shutdown_amount}</p>
+            <p><strong>Cancelled Construction:</strong> {cancelled_construction_amount}</p>
+            <p><strong>Under Construction:</strong> {under_construction_amount}</p>
+            <p><strong>Planned:</strong> {planned_amount}</p>
+            <p><strong>Suspended Operation:</strong> {suspended_operation_amount}</p>
+            <p><strong>Suspended Construction:</strong> {suspended_construction_amount}</p>
+            <p><strong>Never Commissioned:</strong> {never_comm_amount}</p>
+            <p><strong>Decommissioning Completed:</strong> {decomm_completed_amount}</p>
+        </div>
     </div>
+    """
+    script_html = """
+    <script>
+    function toggleSummary() {
+        var content = document.getElementById("summary-content");
+        var header = document.querySelector("#plant-status-summary h1");
+        if (content.style.display === "none") {
+            content.style.display = "block";
+            header.innerHTML = "Plant Status Summary &#x25BC;";
+        } else {
+            content.style.display = "none";
+            header.innerHTML = "Plant Status Summary &#x25B2;";
+        }
+    }
+    </script>
     """
     macro_html= f"""
             {{% macro html(this, kwargs) %}}
             {stats_html}
+            {script_html}
             {{% endmacro %}}
         """
 
@@ -428,7 +448,7 @@ def make_map(df):
     macro._template = Template(macro_html)
     m.get_root().add_child(macro)
 
-    folium.LayerControl(collapsed=False).add_to(m)
+    folium.LayerControl(collapsed=True).add_to(m)
     return m
 
 def main():
