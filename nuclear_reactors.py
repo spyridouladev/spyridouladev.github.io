@@ -1,6 +1,7 @@
 import pandas as pd
 from pathlib import Path
 import folium
+from folium import Element
 from folium.plugins import MarkerCluster
 
 def create_cluster_icon(color):
@@ -305,10 +306,15 @@ def make_map(df):
         no_wrap=True,
         tiles=None 
     )
-
+    attr = (
+        '&copy; <a href="https://opendatacommons.org/licenses/odbl/1.0/">GeoNuclearData (ODbL)</a> '
+        '&copy; <a href="https://carto.com/attributions">CARTO</a> '
+        '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> '
+        '&copy; Twitter, Inc. and contributors. <a href="https://github.com/twitter/twemoji">Twemoji</a>, licensed under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.'
+    )
     folium.TileLayer(
         tiles='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        attr='&copy; <a href="https://opendatacommons.org/licenses/odbl/1.0/">GeoNuclearData (ODbL)</a> &copy; <a href="https://carto.com/attributions">CARTO</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',        name='Carto Voyager',
+        attr=attr,
         min_zoom=3,
         max_zoom=18,
     ).add_to(m)
@@ -346,6 +352,8 @@ def main():
     m = make_map(df)
 
     file = Path(__file__).parent / "docs" / "index.html"
+    favicon = Element('<link rel="icon" href="favicon.ico" type="image/x-icon">')
+    m.get_root().html.add_child(favicon)
     m.save(str(file))
 
 if __name__ == '__main__':
