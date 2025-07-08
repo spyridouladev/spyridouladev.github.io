@@ -407,15 +407,15 @@ def make_map(df):
     <div style="position: absolute; left: 20px; bottom: 20px; background-color: #fff;
         padding: 20px 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif; max-width: 400px; z-index: 9999;">
         <h1 style="font-size: 20px; margin-bottom: 20px;">Plant Status Summary</h1>
-        <p><strong>Operational amount:</strong> {operational_amount}</p>
-        <p><strong>Shutdown amount:</strong> {shutdown_amount}</p>
-        <p><strong>Cancelled Construction amount:</strong> {cancelled_construction_amount}</p>
-        <p><strong>Under Construction amount:</strong> {under_construction_amount}</p>
-        <p><strong>Planned amount:</strong> {planned_amount}</p>
-        <p><strong>Suspended Operation amount:</strong> {suspended_operation_amount}</p>
-        <p><strong>Suspended Construction amount:</strong> {suspended_construction_amount}</p>
-        <p><strong>Never Commissioned amount:</strong> {never_comm_amount}</p>
-        <p><strong>Decommissioning Completed amount:</strong> {decomm_completed_amount}</p>
+        <p><strong>Operational:</strong> {operational_amount}</p>
+        <p><strong>Shutdown:</strong> {shutdown_amount}</p>
+        <p><strong>Cancelled Construction:</strong> {cancelled_construction_amount}</p>
+        <p><strong>Under Construction:</strong> {under_construction_amount}</p>
+        <p><strong>Planned:</strong> {planned_amount}</p>
+        <p><strong>Suspended Operation:</strong> {suspended_operation_amount}</p>
+        <p><strong>Suspended Construction:</strong> {suspended_construction_amount}</p>
+        <p><strong>Never Commissioned:</strong> {never_comm_amount}</p>
+        <p><strong>Decommissioning Completed:</strong> {decomm_completed_amount}</p>
     </div>
     """
     macro_html= f"""
