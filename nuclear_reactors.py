@@ -344,7 +344,9 @@ def main():
     df = pd.read_csv(file)
 
     m = make_map(df)
-    m.save("index.html")
+
+    file = Path(__file__).parent / "docs" / "index.html"
+    m.save(str(file))
 
 if __name__ == '__main__':
     main()
