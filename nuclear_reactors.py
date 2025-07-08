@@ -3,6 +3,7 @@ from pathlib import Path
 import folium
 from folium.plugins import MarkerCluster
 from folium.plugins import Search
+from branca.element import Template, MacroElement, Element
 
 def create_cluster_icon(color):
     return f"""
@@ -95,27 +96,27 @@ def operational(operational_df):
     group.add_child(marker_cluster)
     return group
 
-def cancelled_struction(cancelled_struction_df):
+def cancelled_construction(cancelled_construction_df):
     group = folium.FeatureGroup(name="Cancelled Construction", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("orange"),
         maxClusterRadius=5,
         spiderfyOnMaxZoom=True,
     ) 
-    cancelled_struction_df = cancelled_struction_df.drop(['ReactorModel','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
-    for _, row in cancelled_struction_df.iterrows():
-        cancelled_struction_str =(
+    cancelled_construction_df = cancelled_construction_df.drop(['ReactorModel','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
+    for _, row in cancelled_construction_df.iterrows():
+        cancelled_construction_str =(
                 f"<div style='text-align:center;'><b>{row['Name']}</b></div>"
                 f"<b>Status:</b> Cancelled Construction<br>"
                 f"<b>Reactor Type:</b> {row['ReactorType']}<br>"
                 f"<b>Capacity:</b> {row['Capacity']} MWe<br>"
                 f"<b>Source:</b> {row['Source']}<br>"
             )       
-        cancelled_struction_popup_html = folium.Popup(folium.Html(cancelled_struction_str, script=True), max_width=300)
+        cancelled_construction_popup_html = folium.Popup(folium.Html(cancelled_construction_str, script=True), max_width=300)
         marker = folium.Marker(
             location=[row['Latitude'], row['Longitude']],
             tooltip=row['Name'],
-            popup=cancelled_struction_popup_html,
+            popup=cancelled_construction_popup_html,
             icon=folium.Icon(icon="remove", color="orange"),
         )
         marker_cluster.add_child(marker)
@@ -343,7 +344,7 @@ def make_map(df):
     shutdown_df = df[df['Status'] == 'shutdown'].copy()
     under_construction_df = df[df['Status'] == 'underconstruction'].copy()
     operational_df = df[df['Status'] == 'operational'].copy()
-    cancelled_struction_df = df[df['Status'] == 'cancelledconstruction'].copy()
+    cancelled_construction_df = df[df['Status'] == 'cancelledconstruction'].copy()
     planned_df = df[df['Status'] == 'planned'].copy()
     suspended_operation_df = df[df['Status'] == 'suspendedoperation'].copy()
     suspended_construction_df = df[df['Status'] == 'suspendedconstruction'].copy()
@@ -352,7 +353,7 @@ def make_map(df):
 
     operational_grp = operational(operational_df)    
     shutdown_grp = shutdown(shutdown_df)
-    cancelled_struction_grp = cancelled_struction(cancelled_struction_df)
+    cancelled_construction_grp = cancelled_construction(cancelled_construction_df)
     under_construction_grp = under_construction(under_construction_df)
     planned_grp = planned(planned_df)
     suspended_operation_grp = suspended_operation(suspended_operation_df)
@@ -362,7 +363,7 @@ def make_map(df):
 
     operational_grp.add_to(m)
     shutdown_grp.add_to(m)
-    cancelled_struction_grp.add_to(m)
+    cancelled_construction_grp.add_to(m)
     under_construction_grp.add_to(m)
     planned_grp.add_to(m)
     suspended_operation_grp.add_to(m)
@@ -377,7 +378,7 @@ def make_map(df):
 
     addtogroup(operational_df,search_group)
     addtogroup(shutdown_df,search_group)
-    addtogroup(cancelled_struction_df,search_group)
+    addtogroup(cancelled_construction_df,search_group)
     addtogroup(under_construction_df,search_group)
     addtogroup(planned_df,search_group)
     addtogroup(suspended_operation_df,search_group)
@@ -391,6 +392,41 @@ def make_map(df):
         collapsed=False,
         search_label="name",
     ).add_to(m)
+
+    operational_amount = len(operational_df)
+    shutdown_amount = len(shutdown_df)
+    cancelled_construction_amount = len(cancelled_construction_df)
+    under_construction_amount = len(under_construction_df)
+    planned_amount = len(planned_df)
+    suspended_operation_amount = len(suspended_operation_df)
+    suspended_construction_amount = len(suspended_construction_df)
+    never_comm_amount = len(never_comm_df)
+    decomm_completed_amount = len(decomm_completed_df)
+
+    stats_html = f"""
+    <div style="position: absolute; left: 20px; bottom: 20px; background-color: #fff;
+        padding: 20px 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif; max-width: 400px; z-index: 9999;">
+        <h1 style="font-size: 20px; margin-bottom: 20px;">Plant Status Summary</h1>
+        <p><strong>Operational amount:</strong> {operational_amount}</p>
+        <p><strong>Shutdown amount:</strong> {shutdown_amount}</p>
+        <p><strong>Cancelled Construction amount:</strong> {cancelled_construction_amount}</p>
+        <p><strong>Under Construction amount:</strong> {under_construction_amount}</p>
+        <p><strong>Planned amount:</strong> {planned_amount}</p>
+        <p><strong>Suspended Operation amount:</strong> {suspended_operation_amount}</p>
+        <p><strong>Suspended Construction amount:</strong> {suspended_construction_amount}</p>
+        <p><strong>Never Commissioned amount:</strong> {never_comm_amount}</p>
+        <p><strong>Decommissioning Completed amount:</strong> {decomm_completed_amount}</p>
+    </div>
+    """
+    macro_html= f"""
+            {{% macro html(this, kwargs) %}}
+            {stats_html}
+            {{% endmacro %}}
+        """
+
+    macro = MacroElement()
+    macro._template = Template(macro)
+    m.get_root().add_child(macro)
 
     folium.LayerControl(collapsed=False).add_to(m)
     return m
