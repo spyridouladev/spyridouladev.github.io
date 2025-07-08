@@ -425,7 +425,7 @@ def make_map(df):
         """
 
     macro = MacroElement()
-    macro._template = Template(macro)
+    macro._template = Template(macro_html)
     m.get_root().add_child(macro)
 
     folium.LayerControl(collapsed=False).add_to(m)
