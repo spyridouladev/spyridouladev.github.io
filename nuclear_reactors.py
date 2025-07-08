@@ -308,7 +308,8 @@ def make_map(df):
 
     folium.TileLayer(
         tiles='https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-        attr='&copy; <a href="https://opendatacommons.org/licenses/odbl/1.0/">GeoNuclearData (ODbL)</a> &copy; <a href="https://carto.com/attributions">CARTO</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',        name='Carto Voyager',
+        attr='&copy; <a href="https://opendatacommons.org/licenses/odbl/1.0/">GeoNuclearData (ODbL)</a> &copy; <a href="https://carto.com/attributions">CARTO</a> &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',        
+        name='Carto Voyager',
         min_zoom=3,
         max_zoom=18,
     ).add_to(m)
