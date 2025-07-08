@@ -2,6 +2,7 @@ import pandas as pd
 from pathlib import Path
 import folium
 from folium.plugins import MarkerCluster
+from folium.plugins import Search
 
 def create_cluster_icon(color):
     return f"""
@@ -35,7 +36,8 @@ def shutdown(shutdown_df):
     group = folium.FeatureGroup(name="Shutdown", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("red"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     shutdown_df.fillna("Not Available", inplace=True)
     for _, row in shutdown_df.iterrows():
@@ -66,7 +68,8 @@ def operational(operational_df):
     group = folium.FeatureGroup(name="Operational", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("green"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     ) 
     operational_df = operational_df.drop(['OperationalFrom','OperationalTo'], axis=1)   
     operational_df.fillna("Not Available", inplace=True)
@@ -92,43 +95,45 @@ def operational(operational_df):
     group.add_child(marker_cluster)
     return group
 
-def cancelledstruction(cancelledstruction_df):
+def cancelled_struction(cancelled_struction_df):
     group = folium.FeatureGroup(name="Cancelled Construction", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("orange"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     ) 
-    cancelledstruction_df = cancelledstruction_df.drop(['ReactorModel','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
-    for _, row in cancelledstruction_df.iterrows():
-        cancelledstruction_str =(
+    cancelled_struction_df = cancelled_struction_df.drop(['ReactorModel','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
+    for _, row in cancelled_struction_df.iterrows():
+        cancelled_struction_str =(
                 f"<div style='text-align:center;'><b>{row['Name']}</b></div>"
                 f"<b>Status:</b> Cancelled Construction<br>"
                 f"<b>Reactor Type:</b> {row['ReactorType']}<br>"
                 f"<b>Capacity:</b> {row['Capacity']} MWe<br>"
                 f"<b>Source:</b> {row['Source']}<br>"
             )       
-        cancelledstruction_popup_html = folium.Popup(folium.Html(cancelledstruction_str, script=True), max_width=300)
+        cancelled_struction_popup_html = folium.Popup(folium.Html(cancelled_struction_str, script=True), max_width=300)
         marker = folium.Marker(
             location=[row['Latitude'], row['Longitude']],
             tooltip=row['Name'],
-            popup=cancelledstruction_popup_html,
+            popup=cancelled_struction_popup_html,
             icon=folium.Icon(icon="remove", color="orange"),
         )
         marker_cluster.add_child(marker)
     group.add_child(marker_cluster)
     return group
 
-def underconstruction(underconstruction_df):
+def under_construction(under_construction_df):
     group = folium.FeatureGroup(name="Under Construction", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("orange"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
-    underconstruction_df = underconstruction_df.dropna(subset=["Latitude", "Longitude"])
-    underconstruction_df = underconstruction_df.drop(['IAEAId','OperationalFrom','OperationalTo'], axis=1)    
-    underconstruction_df.fillna("Not Available", inplace=True)
-    for _, row in underconstruction_df.iterrows():
-        underconstruction_str =(
+    under_construction_df = under_construction_df.dropna(subset=["Latitude", "Longitude"])
+    under_construction_df = under_construction_df.drop(['IAEAId','OperationalFrom','OperationalTo'], axis=1)    
+    under_construction_df.fillna("Not Available", inplace=True)
+    for _, row in under_construction_df.iterrows():
+        under_construction_str =(
             f"<div style='text-align:center;'><b>{row['Name']}</b></div>"
             f"<b>Status:</b> Under construction<br>"
             f"<b>Reactor Type:</b> {row['ReactorType']}<br>"
@@ -137,11 +142,11 @@ def underconstruction(underconstruction_df):
             f"<b>Capacity:</b> {row['Capacity']} MWe<br>"
             f"<b>Source:</b> {row['Source']}<br>"
         )      
-        underconstruction_popup_html = folium.Popup(folium.Html(underconstruction_str, script=True), max_width=300)
+        under_construction_popup_html = folium.Popup(folium.Html(under_construction_str, script=True), max_width=300)
         marker = folium.Marker(
             location=[row['Latitude'], row['Longitude']],
             tooltip=row['Name'],
-            popup=underconstruction_popup_html,
+            popup=under_construction_popup_html,
             icon=folium.Icon(icon="wrench", color="orange"),
         )
         marker_cluster.add_child(marker)
@@ -152,7 +157,8 @@ def planned(planned_df):
     group = folium.FeatureGroup(name="Planned", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("blue"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     planned_df = planned_df.drop(['IAEAId','Capacity','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
     planned_df.fillna("Not Available", inplace=True)
@@ -179,7 +185,8 @@ def suspended_operation(suspended_operation_df):
     group = folium.FeatureGroup(name="Suspended Operation", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("darkred"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     suspended_operation_df = suspended_operation_df.drop(['OperationalTo'], axis=1)    
     suspended_operation_df.fillna("Not Available", inplace=True)
@@ -210,7 +217,8 @@ def suspended_construction(suspended_construction_df):
     group = folium.FeatureGroup(name="Suspended Construction", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("orange"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     suspended_construction_df = suspended_construction_df.drop(['OperationalFrom','OperationalTo','IAEAId'], axis=1)   
     suspended_construction_df.fillna("Not Available", inplace=True)
@@ -239,7 +247,8 @@ def never_comm(never_comm_df):
     group = folium.FeatureGroup(name="Never Commissioned", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("gray"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     never_comm_df = never_comm_df.drop(['IAEAId','ConstructionStartAt','OperationalFrom','OperationalTo'], axis=1)    
     never_comm_df.fillna("Not Available", inplace=True)
@@ -267,7 +276,8 @@ def decomm_completed(decomm_completed_df):
     group = folium.FeatureGroup(name="Decommissioning Completed", show=True)
     marker_cluster = MarkerCluster(
         icon_create_function=create_cluster_icon("red"),
-        maxClusterRadius=1
+        maxClusterRadius=5,
+        spiderfyOnMaxZoom=True,
     )
     decomm_completed_df = decomm_completed_df.drop(['OperationalFrom'], axis=1)    
     decomm_completed_df.fillna("Not Available", inplace=True)
@@ -294,6 +304,14 @@ def decomm_completed(decomm_completed_df):
     group.add_child(marker_cluster) 
     return group
 
+def addtogroup(df,group):
+    for _, row in df.iterrows():
+        marker = folium.Marker(
+            location=[row['Latitude'], row['Longitude']],
+            name = row['Name'],
+            icon=folium.DivIcon(html=''),
+        ).add_to(group)
+    
 def make_map(df):
     df['Status'] = df['Status'].str.strip().str.title().str.replace(" ", "").str.lower()
     loc_avg = df['Latitude'].mean(),df['Longitude'].mean()
@@ -323,24 +341,57 @@ def make_map(df):
     df = df.dropna(subset=["Latitude", "Longitude"])    
 
     shutdown_df = df[df['Status'] == 'shutdown'].copy()
-    underconstruction_df = df[df['Status'] == 'underconstruction'].copy()
+    under_construction_df = df[df['Status'] == 'underconstruction'].copy()
     operational_df = df[df['Status'] == 'operational'].copy()
-    cancelledstruction_df = df[df['Status'] == 'cancelledconstruction'].copy()
+    cancelled_struction_df = df[df['Status'] == 'cancelledconstruction'].copy()
     planned_df = df[df['Status'] == 'planned'].copy()
     suspended_operation_df = df[df['Status'] == 'suspendedoperation'].copy()
     suspended_construction_df = df[df['Status'] == 'suspendedconstruction'].copy()
     never_comm_df = df[df['Status'] == 'nevercommissioned'].copy()
     decomm_completed_df = df[df['Status'] == 'decommissioningcompleted'].copy()
 
-    operational(operational_df).add_to(m)
-    shutdown(shutdown_df).add_to(m)
-    cancelledstruction(cancelledstruction_df).add_to(m)
-    underconstruction(underconstruction_df).add_to(m)
-    planned(planned_df).add_to(m)
-    suspended_operation(suspended_operation_df).add_to(m)
-    suspended_construction(suspended_construction_df).add_to(m)
-    never_comm(never_comm_df).add_to(m)
-    decomm_completed(decomm_completed_df).add_to(m)
+    operational_grp = operational(operational_df)    
+    shutdown_grp = shutdown(shutdown_df)
+    cancelled_struction_grp = cancelled_struction(cancelled_struction_df)
+    under_construction_grp = under_construction(under_construction_df)
+    planned_grp = planned(planned_df)
+    suspended_operation_grp = suspended_operation(suspended_operation_df)
+    suspended_construction_grp = suspended_construction(suspended_construction_df)
+    never_comm_grp = never_comm(never_comm_df)
+    decomm_completed_grp = decomm_completed(decomm_completed_df)
+
+    operational_grp.add_to(m)
+    shutdown_grp.add_to(m)
+    cancelled_struction_grp.add_to(m)
+    under_construction_grp.add_to(m)
+    planned_grp.add_to(m)
+    suspended_operation_grp.add_to(m)
+    suspended_construction_grp.add_to(m)
+    never_comm_grp.add_to(m)
+    decomm_completed_grp.add_to(m)
+
+    search_group = folium.FeatureGroup(
+        control=False,
+        show=False
+    ).add_to(m)
+
+    addtogroup(operational_df,search_group)
+    addtogroup(shutdown_df,search_group)
+    addtogroup(cancelled_struction_df,search_group)
+    addtogroup(under_construction_df,search_group)
+    addtogroup(planned_df,search_group)
+    addtogroup(suspended_operation_df,search_group)
+    addtogroup(suspended_construction_df,search_group)
+    addtogroup(never_comm_df,search_group)
+    addtogroup(decomm_completed_df,search_group)
+
+    search = Search(
+        layer=search_group,
+        placeholder="Search for a Nuclear Reactor",
+        collapsed=False,
+        search_label="name",
+    ).add_to(m)
+
     folium.LayerControl(collapsed=False).add_to(m)
     return m
 
