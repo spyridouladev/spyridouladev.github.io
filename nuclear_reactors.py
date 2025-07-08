@@ -307,7 +307,7 @@ def make_map(df):
     )
 
     attr = (
-        '&copy; <a href="https://opendatacommons.org/licenses/odbl/1.0/">GeoNuclearData</a> (ODbL), '
+        '&copy; <a href="https://github.com/cristianst85/GeoNuclearData?tab=License-1-ov-file">GeoNuclearData</a> (ODbL), '
         '&copy; <a href="https://carto.com/attributions">CARTO</a>, '
         '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     )
