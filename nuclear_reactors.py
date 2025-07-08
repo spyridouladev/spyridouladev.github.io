@@ -408,7 +408,7 @@ def make_map(df):
         padding: 20px 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-family: Arial, sans-serif; max-width: 400px; z-index: 9999;">
         <h1 style="font-size: 20px; margin-bottom: 20px;">Plant Status Summary</h1>
         <p><strong>Operational:</strong> {operational_amount}</p>
-        <p><strong>Shutdown:</strong> {shutdown_amount}</p>
+        <p><strong>Shut down:</strong> {shutdown_amount}</p>
         <p><strong>Cancelled Construction:</strong> {cancelled_construction_amount}</p>
         <p><strong>Under Construction:</strong> {under_construction_amount}</p>
         <p><strong>Planned:</strong> {planned_amount}</p>
