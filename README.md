@@ -21,6 +21,3 @@ Any rights in individual contents of the database are licensed
 under the Database Contents License whose full text can be 
 found at https://opendatacommons.org/licenses/dbcl/1.0/. 
 Repository : [GeoNuclearData GitHub](https://github.com/cristianst85/GeoNuclearData)
-
-#### Icon
-The emoji graphics are from the open source project [Twemoji](https://github.com/twitter/twemoji). The graphics are copyright 2020 Twitter, Inc and other contributors. The graphics are licensed under [CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
