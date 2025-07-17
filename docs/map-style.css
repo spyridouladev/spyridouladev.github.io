@@ -35,19 +35,72 @@ html {
     flex-shrink: 0;
 }
 
+#header > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+#header button,
+#header .project-link {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 1.3rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    box-sizing: border-box;
+}
+
 #header button {
     background: var(--accent);
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1rem;
     color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
 }
 
 #header button:hover {
     background: #e85b50;
+}
+
+#header .project-link {
+    background: var(--card-bg);
+    color: #ddd;
+    border: 1.5px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+#header .project-link:hover,
+#header .project-link:focus {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(255, 111, 97, 0.6);
+    transform: translateY(-3px);
+}
+
+#header .project-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: rgba(255, 111, 97, 0.15);
+    transform: skewX(-25deg) translateX(-100%);
+    transition: transform 0.5s ease;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#header .project-link:hover::before,
+#header .project-link:focus::before {
+    transform: skewX(-25deg) translateX(100%);
 }
 
 #map-frame {
@@ -55,5 +108,5 @@ html {
     width: 100%;
     border: none;
     background: var(--container-bg);
-    overflow: auto; 
+    overflow: auto;
 }

@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Reactor Map</title>
   <link rel="stylesheet" href="map-style.css" />
 </head>
+
 <body>
   <div id="header">
     <h1>Reactor Map</h1>
-    <button onclick="window.location.href='index.html'">Back to Home</button>
+    <div>
+      <button onclick="window.location.href='index.html'">Back to Home</button>
+      <a class="project-link" href="https://github.com/spyridouladev/NuclearEnergyMap" target="_blank" rel="noopener">🔗
+        View on GitHub</a>
+    </div>
   </div>
-  <iframe
-    id="map-frame"
-    src="reactor-map.html"
-    title="Reactor Map"
-    allowfullscreen
-  ></iframe>
+  <iframe id="map-frame" src="reactor-map.html" title="Reactor Map" allowfullscreen></iframe>
 </body>
+
 </html>
