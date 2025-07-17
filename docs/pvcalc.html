@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PVCalc — Solar Energy Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="header">
+    <h1>🔋 PVCalc</h1>
+    <button onclick="window.location.href='index.html'">Back to Home</button>
+  </div>
+
+  <div class="container">
+    <p>
+      PVCalc is a Python-based application that estimates solar energy production using weather forecasts and physical models from pvlib. With an interactive GUI and rich features, it’s a practical tool for solar planning or research.
+    </p>
+
+    <h2>✨ Features</h2>
+    <ul>
+      <li>Weather data integration for global locations</li>
+      <li>Solar irradiance modeling with pvlib</li>
+      <li>Dust surface density support for precision</li>
+      <li>Graphical user interface built with Tkinter</li>
+      <li>Power output visualizations for custom time ranges</li>
+    </ul>
+
+    <h2>⚙️ Installation</h2>
+    <p>Make sure Python 3.8+ is installed. Then run:</p>
+    <pre><code>git clone https://github.com/spyridouladev/PVCalc.git
+cd PVCalc
+
+# (Optional) Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate     # macOS/Linux
+venv\Scripts\activate.bat    # Windows CMD
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the app
+python main.py
+</code></pre>
+
+    <h2>🧪 Example: 3-Day Power Forecast</h2>
+    <img src="images/3_days.png" alt="3-day forecast" />
+
+    <h2>📐 Fixed Angle Mode</h2>
+    <img src="images/fixed_angle.png" alt="fixed angle interface" />
+    <img src="images/fixed_angle_graph.png" alt="fixed angle graph" />
+
+    <h2>🔄 Single-Axis Tracker Mode</h2>
+    <img src="images/tracking.png" alt="tracker input" />
+    <img src="images/tracking_graph.png" alt="tracker graph" />
+
+    <h2>📈 Results & Forecast Output</h2>
+    <img src="images/results.png" alt="results graph" />
+    <img src="images/weather.png" alt="weather display" />
+
+    <h2>📚 Attribution & Licensing</h2>
+    <p>
+      This project incorporates models and data from:<br />
+      <strong>Gholami et al. (2023)</strong> – <em>Solar Energy</em><br />
+      <a href="https://doi.org/10.1016/j.solener.2023.01.039" target="_blank">Read paper →</a>
+    </p>
+    <p>
+      Data sources include:<br />
+      - SimpleMaps World Cities DB (<a href="https://simplemaps.com/data/world-cities">link</a>)<br />
+      - CIESIN GPWv4 (<a href="https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-rev11">link</a>)
+    </p>
+    <p>
+      Solar modeling by <strong>pvlib</strong> — BSD 3-Clause License.
+    </p>
+
+    <a class="project-link" href="https://github.com/spyridouladev/PVCalc" target="_blank">🔗 View on GitHub</a>
+    <br />
+    <a class="back-button" href="index.html">← Back to Portfolio</a>
+  </div>
+</body>
+</html>
